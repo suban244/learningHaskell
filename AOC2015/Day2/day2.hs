@@ -30,6 +30,7 @@ parseDimensions dimensions = (l, w, h)
 
 main = do
   contents <- readFile "input.txt"
-  -- let return = calcTotal calcWrappingPaper (map parseDimensions (lines contents))
-  let return = calcTotal calcRibbonLength (map parseDimensions (lines contents))
-  print return
+  let wrapperCost = calcTotal calcWrappingPaper (map parseDimensions (lines contents))
+  let ribbonCost = calcTotal calcRibbonLength (map parseDimensions (lines contents))
+  print wrapperCost
+  print ribbonCost
