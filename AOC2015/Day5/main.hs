@@ -1,4 +1,7 @@
+import Data.Bits
 import Data.List (intersect)
+import GHC.Data.ShortText (ShortText (contents))
+import GHC.Iface.Ext.Fields (readField)
 
 -- not 154
 hasDouble' lastChar string
@@ -24,7 +27,7 @@ containsSubstring' string target matchedSoFar
   | head target == head string =
       containsSubstring' (tail string) (tail target) (matchedSoFar ++ head string : "")
         || (null matchedSoFar && containsSubstring' (tail string) target "")
-  | otherwise = containsSubstring' (tail string) target ""
+  | otherwise = containsSubstring' (tail (matchedSoFar ++ string)) (matchedSoFar ++ target) ""
 
 containsSubString string target = containsSubstring' string target ""
 
@@ -68,7 +71,12 @@ repeatWithXItemInBetween items x
 -- Repeat huna paro but not repeatwithX iteminbetween string 1
 isNice string = containsNotOverLappingPair string && repeatWithXItemInBetween string 1
 
+-- main = do
+--   contents <- readFile "input.txt"
+--   let niceCount = sum (map (fromEnum . isNice) (lines contents))
+--   print niceCount
+
 main = do
   contents <- readFile "input.txt"
-  let niceCount = sum (map (fromEnum . isNice) (lines contents))
-  print niceCount
+  let notmatch = map (\x -> not (any (containsSubString x) ["ab", "cd", "pq", "xy"]) `xor` hasNoBadString x) (lines contents)
+  print notmatch
