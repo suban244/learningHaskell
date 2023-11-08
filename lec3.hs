@@ -20,5 +20,4 @@ whatFollows c k string = map tail (filter (firstCharC c)  (substringOfLength (k 
 whatFollows' :: Char -> Int -> String -> [String]
 whatFollows' c k = map tail . filter (\x -> head x == c)  . map (take (k+ 1)) . tails
 
-substring 
 
